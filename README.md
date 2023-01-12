@@ -1,7 +1,7 @@
 # BackyardBuddies
 Backyard Buddies Capstone Project
 
-You will need to run: 
+If this is your first tim running, you will need to run these commands in the python terminal: 
   - pip install django
   - pip install django-crispy-forms
 
