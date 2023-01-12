@@ -1,7 +1,9 @@
 # BackyardBuddies
 Backyard Buddies Capstone Project
 
-You will need to run: pip install django
+You will need to run: 
+  - pip install django
+  - pip install django-crispy-forms
 
 To Run Local Webserver:
 1. Navigate to BackyardBuddies folder location in the python terminal
