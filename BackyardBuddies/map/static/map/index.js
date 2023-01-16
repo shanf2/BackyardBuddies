@@ -1,5 +1,5 @@
 // Create variable to assign user's current geolocation
-let pos = { lat: 43.2609, lng: -79.9192}; // Default center is Null Island
+let pos = { lat: 43.2609, lng: -79.9192}; // Default center is McMaster 
 
 // Function to create the map object
 function initMap() {
@@ -8,6 +8,12 @@ function initMap() {
     center: pos,
     zoom: 13.7,
   });
+  
+  // Draw activity circle for the default map center. 
+  // This will be overwritten when the user accepts Geolocation.
+  drawActivityCircle(map, pos)
+  drawHouses(map, pos)
+  
   const infoWindow = new google.maps.InfoWindow();
 
   // const locationButton = document.createElement("button");
@@ -15,6 +21,7 @@ function initMap() {
   // locationButton.classList.add("custom-map-control-button");
   // map.controls[google.maps.ControlPosition.TOP_CENTER].push(locationButton);
   // locationButton.addEventListener("click", () => {
+	
     // Try HTML5 geolocation.
     if (navigator.geolocation) {
       navigator.geolocation.getCurrentPosition(
@@ -35,6 +42,9 @@ function initMap() {
 		  
 		  // Draw circle of all activities within range of user's current position
 		  drawActivityCircle(map, pos)
+		  
+		  //Draw all registered houses within activity circle
+		  drawHouses(map, pos)
         },
         () => {
           handleLocationError(true, infoWindow, map.getCenter());
@@ -76,10 +86,41 @@ function drawActivityCircle(map, pos) {
 	  map,
 	  center: pos,
 	  radius: 2000,
+	  clickable: false,
   })
   
-  // Display message boards as map markers
-  
+}
+
+// Display message boards as map markers
+function drawHouses(map, pos) {
+	console.log(housesData);	
+	//Iterate through all houses
+	for (let i = 0; i < housesData.length; i++) {	
+		//Get coords and address of the house
+		const housePosition = housesData[i]['fields']['location'];
+		const houseAddress = housesData[i]['fields']['address'];
+		
+		//Create a marker for the house
+		const houseMarker = new google.maps.Marker({
+			position: housePosition,
+			map,
+			title: houseAddress,
+			//icon: image 
+		});
+		
+		// Create URL for detailed house page
+		const houseURL = window.location.href + "house/" + houseAddress.replace(/\s+/g, '-').toLowerCase();
+		
+		// Create InfoWindow
+		const markerWindow = new google.maps.InfoWindow({
+		content: '<a href="'+houseURL+'">"House Information"</a>'});
+
+		// Add a click listener for each marker, and set up the info window.
+		houseMarker.addListener("click", () => {
+		  markerWindow.close();
+		  markerWindow.open(houseMarker.getMap(), houseMarker);
+		});
+	} 
 }
 
 // Call the map function and display it in the "map" div
