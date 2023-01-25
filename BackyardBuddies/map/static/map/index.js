@@ -55,9 +55,6 @@ function initMap() {
       handleLocationError(false, infoWindow, map.getCenter());
     }
 	
-	// setInterval(function(){
-    // drawActivityCircle(map, pos)
-		// }, 10000)
 }
 
 // Error handling if browser doesn't support geolocation or user declines
@@ -100,26 +97,45 @@ function drawHouses(map, pos) {
 		const housePosition = housesData[i]['fields']['location'];
 		const houseAddress = housesData[i]['fields']['address'];
 		
-		//Create a marker for the house
-		const houseMarker = new google.maps.Marker({
-			position: housePosition,
-			map,
-			title: houseAddress,
-			//icon: image 
-		});
+		// Get distance between center and house location to see if it is within the activity circle
+		const distance = google.maps.geometry.spherical.computeDistanceBetween (pos, housePosition);
 		
-		// Create URL for detailed house page
-		const houseURL = window.location.href + "house/" + houseAddress.replace(/\s+/g, '-').toLowerCase();
-		
-		// Create InfoWindow
-		const markerWindow = new google.maps.InfoWindow({
-		content: '<a href="'+houseURL+'">"House Information"</a>'});
+		if (distance <= 2000) {
+			//Create a marker for the house
+			const houseMarker = new google.maps.Marker({
+				position: housePosition,
+				map,
+				title: houseAddress,
+				//icon: image 
+			});
+			
+			console.log(houseAddress)
+			var geocoder = new google.maps.Geocoder();
+			geocoder.geocode({
+				"address": "88 Emerson St"
+			}, function(results) {
+				console.log(results[0].geometry.location); //LatLng
+			});
+			
+			// Create URL for detailed house page
+			const houseURL = window.location.href + "house/" + houseAddress.replace(/\s+/g, '-').toLowerCase();
+			
+			// Create InfoWindow
+			const contentString = 
+				`<p><strong>${houseAddress}</strong></p>` + 
+				`<p>${housesData[i]['fields']['description']}</p>` +
+				'<a href="'+houseURL+'">House Information</a>'
 
-		// Add a click listener for each marker, and set up the info window.
-		houseMarker.addListener("click", () => {
-		  markerWindow.close();
-		  markerWindow.open(houseMarker.getMap(), houseMarker);
-		});
+			const markerWindow = new google.maps.InfoWindow({
+				content: contentString 
+			});
+
+			// Add a click listener for each marker, and set up the info window.
+			houseMarker.addListener("click", () => {
+				markerWindow.close();
+				markerWindow.open(houseMarker.getMap(), houseMarker);
+			});
+		}
 	} 
 }
 

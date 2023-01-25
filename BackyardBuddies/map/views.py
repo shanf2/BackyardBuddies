@@ -64,12 +64,21 @@ def feed(request):
 class HouseDetailView(DetailView):
     model = House
     
+class HouseCreateView(LoginRequiredMixin, CreateView):
+    model = House
+    fields = ['address', 'location', 'residents', 'description', 'image'] 
+    template_name = "users/new_house_form.html"
+    def form_valid(self, form):
+        form.instance.owner = self.request.user
+        print(form.errors)
+        return super().form_valid(form)
+    
 class HouseUpdateView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
     model = House
-    fields = ['residents', 'description']
+    fields = ['residents', 'description', 'image']
     
     def form_valid(self, form):
-        form.instance.author = self.request.user
+        form.instance.owner = self.request.user
         return super().form_valid(form)
         
     def test_func(self):

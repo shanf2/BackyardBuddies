@@ -5,7 +5,8 @@
             {% csrf_token %}
             <fieldset class="form-group">
                 <legend class="border-bottom mb-4">Delete House</legend>
-				<h2>Are you sure you want to delete the house at {{ object.address }}? <br> This action cannot be undone.</h2>
+				<h2>Are you sure you want to delete the house at: {{ object.address }}?</h2>
+				<p>This action cannot be undone.</p>
             </fieldset>
             <div class="form-group">
                 <button class="btn btn-outline-danger" type="submit">Delete House</button>

@@ -12,4 +12,5 @@ urlpatterns = [
     path("house/<slug:slug>/", HouseDetailView.as_view(), name='house-detail'),
     path("house/<slug:slug>/update/", HouseUpdateView.as_view(), name='house-update'),
     path("house/<slug:slug>/delete/", HouseDeleteView.as_view(), name='house-delete'),
+    path("new_house/", HouseCreateView.as_view(), name='house-create'),
 ]

@@ -4,9 +4,25 @@
 	  <div class="media-body">
 		<div class="article-metadata">
           <legend class="border-bottom mb-4">{{ object.address }}</legend>
+		  <img class="rounded-circle" src="{{ object.image.url }}">
 		  <p><strong>Address:</strong> {{ object.address }}</p>
 		  <p><strong>Owner:</strong> {{ object.owner }}</p>
-		  <p><strong>Location:</strong> {{ object.location }}</p>
+		  <p><strong>Location:</strong></p>
+		  <div id="map2" style="height:300px;width:600px"></div>
+		  <script>
+			function initMap_detail() {
+			  const center = {{ object.location | safe }};
+			  const map = new google.maps.Map(document.getElementById("map2"), {
+				zoom: 15,
+				center: center,
+			  });
+			  const marker = new google.maps.Marker({
+				position: center,
+				map: map,
+			  });
+			}
+			window.initMap = initMap_detail;
+		  </script>
 		  <p><strong>Residents:</strong></p>
 		  <ul>
 			  {% for resident in object.residents.all %}
@@ -22,4 +38,6 @@
 		{% endif %}
 	  </div>
 	</article>
+	<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCaaZ1nKGM-ZeFnHBbD6sYbXIKZ8LANeGg&callback=initMap_detail&v=weekly"
+	 async></script>
 {% endblock content %}
