@@ -16,8 +16,10 @@
               {{ u_form|crispy }}
               {{ p_form|crispy }}
           </fieldset>
-		  <p>Your House:</p>
-		  <a href="{% url 'house-detail' user.profile.house.slug %}">{{ user.profile.house }}</a>
+		  {% if user.profile.house != null %}
+			  <p>Your House:</p>
+			  <a href="{% url 'house-detail' user.profile.house.slug %}">{{ user.profile.house }}</a>
+		  {% endif %}
           <div class="form-group">
               <button class="btn btn-outline-info" type="submit">Update</button>
           </div>

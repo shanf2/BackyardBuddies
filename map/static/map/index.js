@@ -1,5 +1,6 @@
 // Create variable to assign user's current geolocation
 let pos = { lat: 43.2609, lng: -79.9192}; // Default center is McMaster 
+var activityCircle;
 
 // Function to create the map object
 function initMap() {
@@ -70,11 +71,12 @@ function handleLocationError(browserHasGeolocation, infoWindow, pos) {
 
 // Function to draw activity circle and display all message boards within range
 function drawActivityCircle(map, pos) {
-	  // if (activityCircle && activityCircle.setMap)
-		// activityCircle.setMap(null);
+	  // Erase activity circle that is already drawn
+	  if (activityCircle && activityCircle.setMap)
+		activityCircle.setMap(null);
 	
 	  // Create the circle
-	  const activityCircle = new google.maps.Circle({
+	  activityCircle = new google.maps.Circle({
 	  strokeColor: "#00FF00",
       strokeOpacity: 0.8,
       strokeWeight: 4,

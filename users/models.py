@@ -18,12 +18,6 @@ class House(models.Model):
         
     def get_absolute_url(self):
         return reverse("house-detail", kwargs={"slug": self.slug})
-        
-    # def save_house_to_profile(self, profile):
-		# obj, created = Profile.objects.update_or_create(
-        # user=profile.id,
-        # defaults={'house':self},
-        # )
 
     def save(self, *args, **kwargs):
         if not self.slug:
@@ -33,12 +27,24 @@ class House(models.Model):
         # obj, created = Profile.objects.update_or_create(
         # user=self.owner, defaults={"house": self}
         # )
+        
+        # Add the house to the user profile of the owner
         self.owner.profile.house = self
         self.owner.profile.save()
-        # for profile in self.residents.all():
-            # print(user.get_profile())
-            # save_house_to_profile(self, profile):
+        
+        # Add the house to each user profile in the residents list
+        for user in self.residents.all():
+            user.profile.house = self
+            user.profile.save()
             
+        # Remove house from user profile if they are not a resident anymore
+        for user in User.objects.all():
+            if user.profile.house == self and user != self.owner and user not in self.residents.all():
+                print(user.profile)
+                user.profile.house = None
+                user.profile.save()
+                print(user.profile.house)
+                
         img = Image.open(self.image.path)
         if img.height > 300 or img.width > 300:
             output_size = (300,300)
@@ -50,7 +56,7 @@ class House(models.Model):
 class Profile(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE, related_name='profile')
     image = models.ImageField(default='default.jpg', upload_to='profile_pics')
-    house = models.OneToOneField(House, null=True, blank=True, on_delete=models.SET_NULL)
+    house = models.ForeignKey(House, null=True, blank=True, on_delete=models.SET_NULL)
     
     def __str__(self):
         return f'{self.user.username} Profile'

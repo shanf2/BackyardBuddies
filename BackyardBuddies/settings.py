@@ -136,3 +136,10 @@ LOGIN_REDIRECT_URL = "map-home"
 LOGIN_URL = "login"
 
 AUTH_PROFILE_MODULE = 'profile=Profile'
+
+EMAIL_BACKENED = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_HOST = 'smtp.gmail.com'
+EMAIL_PORT = 587
+EMAIL_USE_TLS = True
+EMAIL_HOST_USER = "1"
+EMAIL_HOST_PASSWORD = "2"
