@@ -11,7 +11,7 @@ class House(models.Model):
     residents = models.ManyToManyField(User, blank=True)
     description = models.TextField(blank=True)
     slug = models.SlugField(blank=True)
-    image = models.ImageField(default='default.jpg', upload_to='house_pics')
+    image = models.ImageField(default='house-default.jpg', upload_to='house_pics')
     
     def __str__(self):
         return self.address
