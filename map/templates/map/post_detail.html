@@ -1,4 +1,5 @@
 {% extends "map/base.html" %}
+{% load crispy_forms_tags %}
 {% block content %}
 	<article class="media content-section">
 	  <img class="rounded-circle article-img" src="{{ object.author.profile.image.url }}">
@@ -20,4 +21,35 @@
 		{% endif %}
 	  </div>
 	</article>
+	<div class="col-md-12 card mb-4">
+	  <div class="card-body">
+		<!-- comments -->
+		<h4>{{ comments.count }} comments</h4>
+
+		{% for comment in comments %}
+		<article class="media content-section">
+			<div class="comments" style="padding: 5px;">
+			  <img class="rounded-circle article-img" src="{{ comment.author.profile.image.url }}">
+			  <a class="mr-2" href="{% url 'user-posts' comment.author.username %}" style="color:black">{{ comment.author }}</a>
+				<span class=" text-muted font-weight-normal">{{ comment.created_on }}</span>
+			  </p>
+			  {{ comment.body | linebreaks }}
+			</div>
+		</article>
+		{% endfor %}
+	  </div>
+	  <div class="col-md-12 mb-4">
+		<form method="POST">
+			{% csrf_token %}
+			<fieldset class="form-group">
+				<legend class="border-bottom mb-4">Leave a comment</legend>
+				{{ form | crispy }}
+			</fieldset>
+			<div class="form-group">
+				<button class="btn btn-outline-info" type="submit">Submit</button>
+			</div>
+		</form>
+      </div>
+	</div>
+
 {% endblock content %}

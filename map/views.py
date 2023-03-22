@@ -1,11 +1,15 @@
 from django.shortcuts import render, get_object_or_404
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
-from django.views.generic import ListView, DetailView, CreateView, UpdateView, DeleteView
+from django.views.generic import ListView, DetailView, CreateView, UpdateView, DeleteView, FormView
 from django.contrib.auth.models import User
-from .models import Post
+from .models import Post, Comment
 from users.models import House
 from django.core.serializers.json import DjangoJSONEncoder
 from django.core import serializers
+from .forms import CommentForm
+from django.views.generic.detail import SingleObjectMixin
+from django.urls import reverse
+from django.shortcuts import redirect
 
 
 # Create your views here.
@@ -32,9 +36,58 @@ class UserPostListView(ListView):
     def get_queryset(self):
         user = get_object_or_404(User, username=self.kwargs.get('username'))
         return Post.objects.filter(author=user).order_by('-date_posted')
+
+class PostDisplay(DetailView):
+    model = Post
+    template_name = 'map/post_detail.html'
+    context_object_name = 'post'
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        pk = self.kwargs["pk"]
+        post = get_object_or_404(Post, pk=pk)
+        comments = post.comments.all()
+        context['post'] = post
+        context['comments'] = comments
+        context['form'] = CommentForm()
+        return context
+        
+class PostComment(LoginRequiredMixin, SingleObjectMixin, FormView):
+    model = Post
+    form_class = CommentForm
+    template_name = 'map/post_detail.html'
+
+    def post(self, request, *args, **kwargs):
+        self.object = self.get_object()
+        return super().post(request, *args, **kwargs)
+
+    def get_form_kwargs(self):
+        kwargs = super(PostComment, self).get_form_kwargs()
+        kwargs['request'] = self.request
+        return kwargs
     
+    def form_valid(self, form):
+        comment = form.save(commit=False)
+        comment.post = self.object
+        comment.author = self.request.user
+        comment.save()
+        return super().form_valid(form)
+
+    def get_success_url(self):
+        post = self.get_object()
+        return reverse('post-detail', kwargs={'pk': post.pk})
+        
 class PostDetailView(DetailView):
     model = Post
+
+    def get(self, request, *args, **kwargs):
+        view = PostDisplay.as_view()
+        return view(request, *args, **kwargs)
+
+    def post(self, request, *args, **kwargs):
+        view = PostComment.as_view()
+        return view(request, *args, **kwargs)
+    
  
 class PostCreateView(LoginRequiredMixin, CreateView):
     model = Post
