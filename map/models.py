@@ -9,7 +9,6 @@ class Post(models.Model):
     content = models.TextField()
     date_posted = models.DateTimeField(default=timezone.now)
     author = models.ForeignKey(User, on_delete=models.CASCADE)
-    # address = models.ForeignKey(House, on_delete=models.CASCADE)
     
     def __str__(self):
         return self.title
@@ -23,7 +22,6 @@ class Comment(models.Model):
     author = models.ForeignKey(User, on_delete=models.CASCADE)
     body = models.TextField()
     created_on = models.DateTimeField(auto_now_add=True)
-    #active = models.BooleanField(default=False)
 
     class Meta:
         ordering = ['created_on']

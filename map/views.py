@@ -9,8 +9,6 @@ from django.core import serializers
 from .forms import CommentForm
 from django.views.generic.detail import SingleObjectMixin
 from django.urls import reverse
-from django.shortcuts import redirect
-
 
 # Create your views here.
 def home(request):
