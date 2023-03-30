@@ -9,6 +9,8 @@ from django.core import serializers
 from .forms import CommentForm
 from django.views.generic.detail import SingleObjectMixin
 from django.urls import reverse
+from django.template.loader import render_to_string
+from django.http import JsonResponse
 
 # Create your views here.
 def home(request):
@@ -34,7 +36,26 @@ class UserPostListView(ListView):
     def get_queryset(self):
         user = get_object_or_404(User, username=self.kwargs.get('username'))
         return Post.objects.filter(author=user).order_by('-date_posted')
-
+        
+def likes(request):
+    post = get_object_or_404(Post, id=request.POST.get('post_id'))
+    is_liked = False
+    if post.likes.filter(id=request.user.id).exists():
+        post.likes.remove(request.user)
+        is_liked = False
+    else:
+        post.likes.add(request.user)
+        is_liked = True
+    context ={
+        'post': post,
+        'is_liked': is_liked,
+        'total_likes': post.likes.count(),
+    }
+    if request.headers.get('x-requested-with') == 'XMLHttpRequest':
+        html = render_to_string('map/like_section.html', context, request=request)
+        print(html)
+        return JsonResponse({'form': html})
+        
 class PostDisplay(DetailView):
     model = Post
     template_name = 'map/post_detail.html'

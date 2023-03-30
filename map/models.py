@@ -9,12 +9,17 @@ class Post(models.Model):
     content = models.TextField()
     date_posted = models.DateTimeField(default=timezone.now)
     author = models.ForeignKey(User, on_delete=models.CASCADE)
+    likes = models.ManyToManyField(User, blank=True, related_name='likes')
+    dislikes = models.ManyToManyField(User, blank=True, related_name='dislikes')
     
     def __str__(self):
         return self.title
         
     def get_absolute_url(self):
         return reverse('post-detail', kwargs = {'pk': self.pk})
+        
+    def number_of_likes(self):
+        return self.likes.count()
         
 #Comments of a post
 class Comment(models.Model):

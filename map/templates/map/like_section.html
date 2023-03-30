@@ -1,0 +1,12 @@
+{{ post.likes.all.count }} Like{{ post.likes.all.count|pluralize }}
+
+{% if request.user.is_authenticated %}
+<form action="{% url 'likes' %}" method="POST">
+    {% csrf_token %}
+	{% if request.user in post.likes.all %}
+        <button style="background-color: transparent;border: none" type="submit" id="like" name="post_id" value="{{ post.id }}"><img src="/media/Blue Thumbs Up.png"></button>
+    {% else %}
+        <button style="background-color: transparent;border: none" type="submit" id="like" name="post_id" value="{{ post.id }}"><img src="/media/Black Thumbs Up.png"></button>
+    {% endif %}
+</form>
+{% endif %}
