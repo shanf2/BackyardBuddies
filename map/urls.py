@@ -15,4 +15,5 @@ urlpatterns = [
     path("house/<slug:slug>/delete/", HouseDeleteView.as_view(), name='house-delete'),
     path("new_house/", HouseCreateView.as_view(), name='house-create'),
     path('likes/', likes, name='likes'),
+    path('dislikes/', dislikes, name='dislikes'),
 ]

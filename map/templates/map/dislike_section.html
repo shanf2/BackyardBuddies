@@ -1,0 +1,10 @@
+{% if request.user.is_authenticated %}
+<form action="{% url 'dislikes' %}" method="POST">
+    {% csrf_token %}
+	{% if request.user in post.dislikes.all %}
+        <button style="background-color: transparent;border: none" type="submit" id="dislike" name="post_id" value="{{ post.id }}"><img src="/media/Blue Thumbs Down.png"></button>
+    {% else %}
+        <button style="background-color: transparent;border: none" type="submit" id="dislike" name="post_id" value="{{ post.id }}"><img src="/media/Black Thumbs Down.png"></button>
+    {% endif %}
+</form>
+{% endif %}

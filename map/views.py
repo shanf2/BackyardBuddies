@@ -53,7 +53,24 @@ def likes(request):
     }
     if request.headers.get('x-requested-with') == 'XMLHttpRequest':
         html = render_to_string('map/like_section.html', context, request=request)
-        print(html)
+        return JsonResponse({'form': html})
+        
+def dislikes(request):
+    post = get_object_or_404(Post, id=request.POST.get('post_id'))
+    is_disliked = False
+    if post.dislikes.filter(id=request.user.id).exists():
+        post.dislikes.remove(request.user)
+        is_disliked = False
+    else:
+        post.dislikes.add(request.user)
+        is_disliked = True
+    context ={
+        'post': post,
+        'is_disliked': is_disliked,
+        'total_dislikes': post.dislikes.count(),
+    }
+    if request.headers.get('x-requested-with') == 'XMLHttpRequest':
+        html = render_to_string('map/dislike_section.html', context, request=request)
         return JsonResponse({'form': html})
         
 class PostDisplay(DetailView):

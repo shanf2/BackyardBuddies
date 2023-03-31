@@ -19,8 +19,11 @@
 				<a class = "btn btn-danger btn-sm mt-1 mb-1" href="{% url 'post-delete' object.id %}">Delete</a>
 			</div>
 		{% endif %}
-		<div id="like-section">
+		<div id="like-section" style="display: inline-block;"">
 			{% include 'map/like_section.html' %}
+		</div>
+		<div id="dislike-section" style="display: inline-block;">
+			{% include 'map/dislike_section.html' %}
 		</div>
 	  </div>
 	</article>
@@ -68,6 +71,28 @@
 				},
 				success: function(response){
 				  $('#like-section').html(response['form'])
+				},
+				error: function(rs, e){
+				  console.log(rs.responseText);
+				},
+			  });
+		 });
+	})
+</script>
+<script>
+	$(document).ready(function(){
+	  $(document).on('click', '#dislike', function(event){
+		event.preventDefault();
+		var pk = $(this).attr('value');
+		$.ajax({
+		  type: 'POST',
+		  url: '{% url "dislikes" %}',
+		  data: {
+				'post_id': pk,
+				'csrfmiddlewaretoken': '{{ csrf_token }}'
+				},
+				success: function(response){
+				  $('#dislike-section').html(response['form'])
 				},
 				error: function(rs, e){
 				  console.log(rs.responseText);
