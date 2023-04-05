@@ -1,21 +1,19 @@
 {% extends "map/base.html" %}
 {% load crispy_forms_tags %}
 {% block content %}
+<body class="RYHPage">
     <div class="content-section">
         <form method="POST"enctype=multipart/form-data>
             {% csrf_token %}
             <fieldset class="form-group">
-                <legend class="border-bottom mb-4">Register Your House</legend>
+                <legend class="border-bottom mb-4"><strong>Register Your House</strong></legend>
 				{% load static %}
-				<p><strong>Find your address on the Map!</strong></p>
-				<p>Search for your address in the search bar on map below. 
-				Once the address has been selected and you can see a marker on the map, 
-				continue with the next steps and press the Submit button.</p>
+				<p><strong>First, locate your house on the Map!</strong></p>
 				<script type="module" src="{% static 'map/house_register_map.js' %}"></script>
-				<input id="pac-input" class="controls" type="text" placeholder="Search Box">
-				<div id="register_map" style="height:400px;width:900px"></div>
+				<input id="pac-input" class="controls" type="text" placeholder="Enter your address here">
+				<div class="mapbox" id="register_map" style="height:400px;width:680px"></div>
 				
-                {{ form.non_field_errors }}
+                <!--{{ form.non_field_errors }}
 				<div class="fieldWrapper">
 					{{ form.address.errors }}
 					<label for="{{ form.address.id_for_label }}"></label>
@@ -26,6 +24,7 @@
 					<label for="{{ form.location.id_for_label }}"></label>
 					{{ form.location.as_hidden }}
 				</div>
+				-->
 				<br>
 				<div class="fieldWrapper">
 					{{ form.residents.errors }}
@@ -56,4 +55,5 @@
     </div>
 	<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCaaZ1nKGM-ZeFnHBbD6sYbXIKZ8LANeGg&libraries=places&callback=initAddressMap&v=weekly"
 	 async></script>
+</body>
 {% endblock content %}
