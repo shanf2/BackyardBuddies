@@ -153,3 +153,104 @@ a.article-title:hover {
   position: sticky;
   top: 0;
 }
+/*The part below is only for login page*/
+.loginPage{
+  background: url(../../../media/istockphoto-1024128094-612x612.jpg)no-repeat;
+  background-size: cover;
+  background-position:bottom;
+  background-attachment: fixed;
+}
+
+.loginPage .content-section{
+  margin:30% auto;
+  margin-left: 30%;
+  margin-right: -30%;
+  border-radius: 1.5rem;
+  background-color: rgb(255, 255, 255,95%);
+}
+/*login page complete*/
+
+/*register page*/
+.registerPage{
+  background: url(../../../media/istockphoto-1024128094-612x612.jpg)no-repeat;
+  background-size: cover;
+  background-position:bottom;
+  background-attachment: fixed;
+}
+
+.registerPage .content-section{
+  margin:15% auto;
+  margin-left: 30%;
+  margin-right: -30%;
+  border-radius: 1.5rem;
+  background-color: rgb(255, 255, 255,95%);
+}
+/*register page complete*/
+
+/*register your house page*/
+.RYHPage{
+  background: url(../../../media/istockphoto-1024128094-612x612.jpg)no-repeat;
+  background-size: cover;
+  background-position:bottom;
+  background-attachment: fixed;
+}
+
+.RYHPage .content-section{
+  margin:5% auto;
+  margin-left: 30%;
+  margin-right: -30%;
+  border-radius: 1.5rem;
+  background-color: rgb(255, 255, 255,95%);
+}
+
+.RYHPage .mapbox{
+  border-radius: 1rem;
+}
+
+.RYHPage .controls{
+  height: 2.5rem;
+  border: none;
+}
+/*register your house page complete*/
+
+/*User profile page*/
+.profilePage{
+  background: url(../../../media/istockphoto-1024128094-612x612.jpg)no-repeat;
+  background-size: cover;
+  background-position:bottom;
+  background-attachment: fixed;
+}
+
+.profilePage .content-section{
+  margin:15% auto;
+  margin-left: 30%;
+  margin-right: -30%;
+  border-radius: 1.5rem;
+  background-color: rgb(255, 255, 255);
+}
+/*User profile page complete*/
+
+/*logout page*/
+.logoutPage{
+  background: url(../../../media/logoutpic.jpg)no-repeat;
+  background-size: cover;
+  background-position: bottom;
+  background-attachment: fixed;
+}
+
+.logoutPage .logoutbox{
+  display: flex;
+  width: 40rem;
+  height: 10rem;
+  background-color: rgba(26, 24, 24, 0.6);
+  border-radius: 1rem;
+  margin-top: 40%;
+  margin-left: 35%;
+  flex-direction: column;
+  align-items: center;
+}
+
+.logoutPage h2{
+  color: beige;
+  margin-top: 3.5rem;
+}
