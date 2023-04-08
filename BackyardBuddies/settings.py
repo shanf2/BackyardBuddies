@@ -35,6 +35,7 @@ INSTALLED_APPS = [
     "map.apps.MapConfig",
     "users.apps.UsersConfig",
     "crispy_forms",
+    "crispy_bootstrap4",
     "django.contrib.admin",
     "django.contrib.auth",
     "django.contrib.contenttypes",
