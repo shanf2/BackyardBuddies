@@ -10,7 +10,7 @@
 		  <p><strong>Residents:</strong></p>
 		  <ul>
 			  {% for resident in object.residents.all %}
-				<li>{{ resident }}</li>
+				<li><a class="mr-2" href="{% url 'user-posts' resident.username %}">{{ resident }}</a></li>
 			  {% endfor %}
 	      </ul>
 		  <p><strong>Location:</strong></p>
