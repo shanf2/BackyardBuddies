@@ -29,7 +29,8 @@
 			}
 			window.initMap = initMap_detail;
 		  </script>
-		  <p><strong>Description: </strong>{{ object.description }}</p>
+		  <p><strong>Description: </strong></p>
+		  <p>{{ object.description }}</p>
 		{% if object.owner == user %}
 			<div>
 				<a class = "btn btn-secondary btn-sm mt-1 mb-1" href="{% url 'house-update' object.slug %}">Edit</a>
