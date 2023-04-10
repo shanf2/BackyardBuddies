@@ -12,7 +12,9 @@
 			  {% for resident in object.residents.all %}
 				<li><a class="mr-2" href="{% url 'user-posts' resident.username %}">{{ resident }}</a></li>
 			  {% endfor %}
-	      </ul>
+	          </ul>
+		  <p><strong>Description: </strong></p>
+		  <p>{{ object.description }}</p>
 		  <p><strong>Location:</strong></p>
 		  <div id="map2" style="height:300px;width:600px"></div>
 		  <script>
@@ -29,8 +31,6 @@
 			}
 			window.initMap = initMap_detail;
 		  </script>
-		  <p><strong>Description: </strong></p>
-		  <p>{{ object.description }}</p>
 		{% if object.owner == user %}
 			<div>
 				<a class = "btn btn-secondary btn-sm mt-1 mb-1" href="{% url 'house-update' object.slug %}">Edit</a>
