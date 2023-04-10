@@ -9,8 +9,7 @@
           <h2 class="account-heading">{{ user.username }}</h2>
           <p class="text-secondary">{{ user.email }}</p>
 	  {% if user.profile.house != null %}
-		<p>Your House:</p>
-		<a href="{% url 'house-detail' user.profile.house.slug %}">{{ user.profile.house }}</a>
+		<p>Your House: <a href="{% url 'house-detail' user.profile.house.slug %}">{{ user.profile.house }}</a></p>
           {% endif %}
         </div>
       </div>
