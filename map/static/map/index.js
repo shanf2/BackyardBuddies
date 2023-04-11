@@ -108,7 +108,7 @@ function drawHouses(map, pos) {
 				position: housePosition,
 				map,
 				title: houseAddress,
-				//icon: image 
+				icon: '/media/signpost.png'
 			});
 			
 			console.log(houseAddress)
