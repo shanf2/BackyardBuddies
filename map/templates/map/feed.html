@@ -13,6 +13,7 @@
 				<a href="{% url 'house-detail' post.author.profile.house.slug %}">{{ post.author.profile.house }}</a>
 			{% endif %}
 			<p class="article-content">{{ post.content }}</p>
+			<p class="text-muted">{{ post.likes.all.count }} Like{{ post.likes.all.count|pluralize }}</p>
 		  </div>
 		</article>
 	{% endfor %}
