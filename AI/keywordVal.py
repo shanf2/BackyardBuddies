@@ -7,20 +7,21 @@ from nltk.tokenize import word_tokenize
 def importantWords(post):
 
     # TF (Term Frequency) = Number of times a term t appears in the text / Total number of words in the document
-    # ITF (Inverse Term Frequency) = log(total number of sentences / Number of sentences with term t)
-    # TF-ITF = TF * ITF = More TF-ITF value, more important is the variable
+    # ITF (Inverse Term Frequency) = log(total number of sentences / Number of sentences with term)
+    # TF_ITF = TF * ITF = More TF_ITF value, more important is the variable
 
+    #Getting all the stopwords(unimportant words)
     stop_words = set(stopwords.words('english')) 
 
-    # Step 1 : Find total words in the document
-    total_words = doc.split()
+    # Step 1 : Find total words in the posts
+    total_words = post.split()
     total_word_length = len(total_words)
 
     # Step 2 : Find total number of sentences
-    total_sentences = tokenize.sent_tokenize(doc)
+    total_sentences = tokenize.sent_tokenize(post)
     total_sent_len = len(total_sentences)
 
-    # Step 3: Calculate TF for each word
+    # Step 3: Calculate TF for each word/Also gets all the important words in feed
     tf_score = {}
     for each_word in total_words:
         each_word = each_word.replace('.','')
@@ -66,7 +67,10 @@ def importantWords(post):
 # def testDisplay():
 #     print("hello")
 # 
-# doc = 'I am a McMaster student. I am in my fourth year, doing my capstone project. For the capstone project, my team is doing a social media website. Planning to incoporate AI into the capstone project. My capstone group have five members. It is fun. Hello world.'
-# output_top,out=importantWords(doc)
+
+# doc = """I am a McMaster student. I am in my fourth year, doing my capstone project. For the 
+#         capstone project, my team is doing a social media website. Planning to incoporate AI into 
+#         the capstone project. My capstone group have five members. It is fun. Hello world."""
+# output,out=importantWords(doc)
 # print("out: ", out.keys())
-# print("top: ", output_top)
+# print("output: ", out)
